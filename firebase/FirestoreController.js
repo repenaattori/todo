@@ -1,4 +1,4 @@
-import { collection, onSnapshot, orderBy, query } from "firebase/firestore";
+import { addDoc, collection, onSnapshot, orderBy, query } from "firebase/firestore";
 import { useEffect, useState } from "react";
 import { db, TODOS_REF } from "./Config";
 
@@ -18,3 +18,7 @@ export function useFireTodos(){
     return todos;
 }
 
+export function addTodo(todoText){
+    addDoc( collection(db, TODOS_REF), {done: false, todoText } )
+        .catch(error => console.log(error.message))
+}

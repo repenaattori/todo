@@ -1,33 +1,31 @@
 import { StatusBar } from 'expo-status-bar';
 import { FlatList, StyleSheet, Text, View } from 'react-native';
-import TodoItem from './components/TodoItem';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { useEffect, useState } from 'react';
-import { Button, Divider, TextInput } from 'react-native-paper';
+import { use, useEffect, useState } from 'react';
+import { Button, Divider, MD2LightTheme, PaperProvider, TextInput } from 'react-native-paper';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { useFireTodos } from './firebase/FirestoreController';
+import { addTodo, useFireTodos } from './firebase/FirestoreController';
+import TodoItem from './components/TodoItem';
+import { TodoList } from './components/TodoList';
 
 export default function App() {
 
+  const [todo, setTodo] = useState('');
   const todos = useFireTodos();
 
-  
-
   return (
+    <PaperProvider >
     <SafeAreaView style={styles.container}>
-      {/* <TextInput
-        label={'Todo'}
+      <TextInput
+        label={'New todo'}
         value={todo}
         onChangeText={setTodo}
-        right={<TextInput.Icon icon={'plus-thick'} onPress={addTodo}/>}
+        right={<TextInput.Icon icon={'plus-circle'} onPress={()=>addTodo(todo)} size={32}/>}
       />
-      <Button mode='contained' onPress={removeTodos}>Remove selected</Button>
-      <FlatList
-        data={items}
-        renderItem={({item}) => <TodoItem text={item.text} checked={item.checked} onCheck={checked=>todoChecked(item, checked)}/>}
-        ItemSeparatorComponent={<Divider bold={true}/>}
-      /> */}
+      <TodoList todos={todos}/>
+      <Button mode='contained'>Remove all</Button>
     </SafeAreaView>
+    </PaperProvider>
   );
 }
 
