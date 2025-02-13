@@ -5,45 +5,15 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { useEffect, useState } from 'react';
 import { Button, Divider, TextInput } from 'react-native-paper';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useFireTodos } from './firebase/FirestoreController';
 
 export default function App() {
 
-  const [items, setItems] = useState();
-  const [todo, setTodo] = useState('');
-
-  useEffect(()=>{
-    if(items){
-      AsyncStorage.setItem('todos', JSON.stringify(items))
-        .catch(error => console.log(error.message));
-    }else{
-      getItems();
-    }
-  },[items])
-
-  function getItems(){
-    AsyncStorage.getItem('todos')
-      .then(json => {
-        let itemList = JSON.parse(json);
-        setItems(itemList ? itemList : []);
-      }) 
-      .catch(error => console.log(error.message))
-  }
-
-  function addTodo(){
-    setItems([...items, {text: todo, checked: false}])
-  }
-
-  function todoChecked(item, checked){
-    setItems( items.map( i => i.text == item.text ? {...i, checked} : i)  )
-  }
-
-  function removeTodos(){
-    setItems( items.filter( i => !i.checked) )
-  }
-
+  const todos = useFireTodos();
+  
   return (
     <SafeAreaView style={styles.container}>
-      <TextInput
+      {/* <TextInput
         label={'Todo'}
         value={todo}
         onChangeText={setTodo}
@@ -54,7 +24,7 @@ export default function App() {
         data={items}
         renderItem={({item}) => <TodoItem text={item.text} checked={item.checked} onCheck={checked=>todoChecked(item, checked)}/>}
         ItemSeparatorComponent={<Divider bold={true}/>}
-      />
+      /> */}
     </SafeAreaView>
   );
 }
