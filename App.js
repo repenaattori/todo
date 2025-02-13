@@ -10,7 +10,9 @@ import { useFireTodos } from './firebase/FirestoreController';
 export default function App() {
 
   const todos = useFireTodos();
+
   
+
   return (
     <SafeAreaView style={styles.container}>
       {/* <TextInput
