@@ -26,7 +26,7 @@ export default function TodoItem({todoItem}){
                 status={done ? 'checked' : 'unchecked'}
                 onPress={onCheck}
             />
-            <Chip style={chipStyle}>{todoItem.todoText}</Chip>
+            <Chip style={chipStyle} onPress={onCheck}>{todoItem.todoText}</Chip>
             <IconButton 
                 disabled={!done} 
                 icon={'trash-can'} 
