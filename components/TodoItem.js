@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { StyleSheet, View } from "react-native";
 import { Checkbox, Chip, IconButton, MD3LightTheme, Text } from "react-native-paper";
+import { removeTodo } from "../firebase/FirestoreController";
 
 export default function TodoItem({todoItem}){
 
@@ -25,7 +26,12 @@ export default function TodoItem({todoItem}){
                 onPress={onCheck}
             />
             <Chip style={chipStyle}>{todoItem.todoText}</Chip>
-            <IconButton disabled={!done} icon={'trash-can'} iconColor='black'/>
+            <IconButton 
+                disabled={!done} 
+                icon={'trash-can'} 
+                iconColor='black'
+                onPress={()=> removeTodo(todoItem.id)}
+            />
         </View>
     )
 }

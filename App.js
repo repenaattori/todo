@@ -1,10 +1,10 @@
 import { StatusBar } from 'expo-status-bar';
-import { FlatList, StyleSheet, Text, View } from 'react-native';
+import { Alert, FlatList, StyleSheet, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { use, useEffect, useState } from 'react';
-import { Button, Divider, MD2LightTheme, PaperProvider, TextInput } from 'react-native-paper';
+import { Button, Divider, MD2LightTheme, MD3LightTheme, PaperProvider, Text, TextInput } from 'react-native-paper';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { addTodo, useFireTodos } from './firebase/FirestoreController';
+import { addTodo, removeAllTodos, useFireTodos } from './firebase/FirestoreController';
 import TodoItem from './components/TodoItem';
 import { TodoList } from './components/TodoList';
 
@@ -13,18 +13,34 @@ export default function App() {
   const [todo, setTodo] = useState('');
   const todos = useFireTodos();
 
+  function removeAllAlert(){
+    Alert.alert('Todolist', 'Remove all todo item?', [
+      {text: 'Cancel'},
+      {text:'OK', onPress: removeAllTodos}
+    ])
+  }
+
+
   return (
     <PaperProvider >
-    <SafeAreaView style={styles.container}>
-      <TextInput
-        label={'New todo'}
-        value={todo}
-        onChangeText={setTodo}
-        right={<TextInput.Icon icon={'plus-circle'} onPress={()=>addTodo(todo)} size={32}/>}
-      />
-      <TodoList todos={todos}/>
-      <Button mode='contained'>Remove all</Button>
-    </SafeAreaView>
+      <SafeAreaView style={styles.container}>
+        <Text variant='headlineMedium'>Todolist ({todos ? todos.length : 0 })</Text>
+        <TextInput
+          label={'New todo'}
+          value={todo}
+          onChangeText={setTodo}
+          right={
+            <TextInput.Icon 
+              icon={'plus-circle'} 
+              onPress={()=>addTodo(todo)} 
+              size={32}
+              color={MD3LightTheme.colors.primary}
+            />
+          }
+        />
+        <TodoList todos={todos}/>
+        <Button mode='contained' onPress={removeAllAlert}>Remove all</Button>
+      </SafeAreaView>
     </PaperProvider>
   );
 }

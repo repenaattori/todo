@@ -1,4 +1,4 @@
-import { addDoc, collection, onSnapshot, orderBy, query } from "firebase/firestore";
+import { addDoc, collection, deleteDoc, doc, getDocs, onSnapshot, orderBy, query } from "firebase/firestore";
 import { useEffect, useState } from "react";
 import { db, TODOS_REF } from "./Config";
 
@@ -23,9 +23,26 @@ export function useFireTodos(){
 }
 
 /**
- * Adding new todo into the Firestore colletion (iniates onsnapshot call)
+ * Adding new todo into the Firestore colletion (initiates onsnapshot call)
  */
 export function addTodo(todoText){
     addDoc( collection(db, TODOS_REF), {done: false, todoText } )
-        .catch(error => console.log(error.message))
+        .catch(error => console.log(error.message));
+}
+
+/**
+ * Removing single todo item from Firestore by id
+ */
+export function removeTodo(id){
+    deleteDoc(doc(db, TODOS_REF, id))
+        .catch(error => console.log(error.message));
+}
+
+/**
+ * Removes all the todo items from Firestore
+ */
+export function removeAllTodos(){
+    getDocs( collection(db, TODOS_REF) )
+        .then( docs => docs.forEach(doc => removeTodo(doc.id)))
+        .catch(error => console.log(error.message));
 }
