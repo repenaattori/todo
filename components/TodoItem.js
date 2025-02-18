@@ -1,13 +1,14 @@
 import { useState } from "react";
 import { StyleSheet, View } from "react-native";
 import { Checkbox, Chip, IconButton, MD3LightTheme, Text } from "react-native-paper";
-import { removeTodo } from "../firebase/FirestoreController";
+import { removeTodo, updateTodo } from "../firebase/FirestoreController";
 
 export default function TodoItem({todoItem}){
 
     const [done, setDone] = useState(todoItem.done);
 
     function onCheck(){
+        updateTodo(todoItem.id, {done: !done})
         setDone(!done);
     }    
 

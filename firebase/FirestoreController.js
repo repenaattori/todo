@@ -1,4 +1,4 @@
-import { addDoc, collection, deleteDoc, doc, getDocs, onSnapshot, orderBy, query } from "firebase/firestore";
+import { addDoc, collection, deleteDoc, doc, getDocs, onSnapshot, orderBy, query, updateDoc } from "firebase/firestore";
 import { useEffect, useState } from "react";
 import { db, TODOS_REF } from "./Config";
 
@@ -45,4 +45,12 @@ export function removeAllTodos(){
     getDocs( collection(db, TODOS_REF) )
         .then( docs => docs.forEach(doc => removeTodo(doc.id)))
         .catch(error => console.log(error.message));
+}
+
+/**
+ * Updates single todo with id and new data
+ */
+export function updateTodo(id, data){
+    updateDoc(doc(db, TODOS_REF, id), data)
+        .catch( error => console.log(error.message));
 }
