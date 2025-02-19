@@ -7,11 +7,13 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { addTodo, removeAllTodos, useFireTodos } from './firebase/FirestoreController';
 import TodoItem from './components/TodoItem';
 import { TodoList } from './components/TodoList';
+import { logoutUser, signUpUser, useFireAuth } from './firebase/FirebaseAuthConroller';
 
 export default function App() {
 
   const [todo, setTodo] = useState('');
   const todos = useFireTodos();
+  const user = useFireAuth();
 
   function removeAllAlert(){
     Alert.alert('Todolist', 'Remove all todo item?', [
