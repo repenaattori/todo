@@ -8,44 +8,20 @@ import { addTodo, removeAllTodos, useFireTodos } from './firebase/FirestoreContr
 import TodoItem from './components/TodoItem';
 import { TodoList } from './components/TodoList';
 import { logoutUser, signUpUser, useFireAuth } from './firebase/FirebaseAuthConroller';
+import Login from './screens/Login';
 
 export default function App() {
 
-  const [todo, setTodo] = useState('');
-  const todos = useFireTodos();
   const user = useFireAuth();
-
-  function removeAllAlert(){
-    Alert.alert('Todolist', 'Remove all todo item?', [
-      {text: 'Cancel'},
-      {text:'OK', onPress: removeAllTodos}
-    ])
-  }
-
 
   return (
     <PaperProvider >
-      <SafeAreaView style={styles.container}>
-        <Text variant='headlineMedium'>Todolist ({todos ? todos.length : 0 })</Text>
-        <TextInput
-          label={'New todo'}
-          value={todo}
-          onChangeText={setTodo}
-          right={
-            <TextInput.Icon 
-              icon={'plus-circle'} 
-              onPress={()=>addTodo(todo)} 
-              size={32}
-              color={MD3LightTheme.colors.primary}
-            />
-          }
-        />
-        <TodoList todos={todos}/>
-        <Button mode='contained' onPress={removeAllAlert}>Remove all</Button>
-      </SafeAreaView>
+      { user ? <Todos/> : <Login/>}
     </PaperProvider>
   );
 }
+
+
 
 const styles = StyleSheet.create({
   container: {
