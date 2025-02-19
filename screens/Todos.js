@@ -1,9 +1,8 @@
-import { Button, MD3LightTheme, Text, TextInput } from "react-native-paper";
-import { SafeAreaView } from "react-native-safe-area-context";
-import { TodoList } from '../components/TodoList';
 import { useState } from "react";
+import { StyleSheet, View } from "react-native";
+import { Button, MD3LightTheme, Text, TextInput } from "react-native-paper";
+import { TodoList } from '../components/TodoList';
 import { useFireTodos } from "../firebase/FirestoreController";
-import { StyleSheet } from "react-native";
 
 export default function Todos() {
 
@@ -18,7 +17,7 @@ export default function Todos() {
     }
 
     return (
-        <SafeAreaView style={styles.container}>
+        <View style={styles.container}>
             <Text variant='headlineMedium'>Todolist ({todos ? todos.length : 0})</Text>
             <TextInput
                 label={'New todo'}
@@ -35,7 +34,7 @@ export default function Todos() {
             />
             <TodoList todos={todos} />
             <Button mode='contained' onPress={removeAllAlert}>Remove all</Button>
-        </SafeAreaView>
+        </View>
     );
 }
 
