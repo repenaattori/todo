@@ -1,3 +1,10 @@
+import { Button, MD3LightTheme, Text, TextInput } from "react-native-paper";
+import { SafeAreaView } from "react-native-safe-area-context";
+import { TodoList } from '../components/TodoList';
+import { useState } from "react";
+import { useFireTodos } from "../firebase/FirestoreController";
+import { StyleSheet } from "react-native";
+
 export default function Todos() {
 
     const [todo, setTodo] = useState('');
@@ -31,3 +38,12 @@ export default function Todos() {
         </SafeAreaView>
     );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#fff',
+    padding: 10,
+    gap: 5
+  },
+});

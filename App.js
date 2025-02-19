@@ -9,6 +9,7 @@ import TodoItem from './components/TodoItem';
 import { TodoList } from './components/TodoList';
 import { logoutUser, signUpUser, useFireAuth } from './firebase/FirebaseAuthConroller';
 import Login from './screens/Login';
+import Todos from './screens/Todos';
 
 export default function App() {
 

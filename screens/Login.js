@@ -1,7 +1,8 @@
 import { useState } from "react";
-import { StyleSheet, View } from "react-native";
+import { Alert, StyleSheet, View } from "react-native";
 import { Button, SegmentedButtons, TextInput } from "react-native-paper";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { loginUser, signUpUser } from "../firebase/FirebaseAuthConroller";
 
 const buttons = [
     {value: false, label: 'Login'},
@@ -13,9 +14,19 @@ export default function Login(){
     const [pw, setPw] = useState('');
     const [nickname, setNickname] = useState('');
     const [register, setRegister] = useState(false);
+    const [error, setError] = useState();
 
-    function signAction(){
+    async function signAction(){
+        if(register){
+            setError(await signUpUser(email, pw));
+        }else{
+            setError(await loginUser(email, pw));
+        }
+    }
 
+    if(error){
+        Alert.alert(error);
+        setError(null);
     }
 
     return(
@@ -45,7 +56,9 @@ export default function Login(){
                 label={'Password'}
                 left={<TextInput.Icon icon={'lock'}/>}
             />
-            <Button mode='contained' onPress={signAction}>Login</Button>
+            <Button mode='contained' onPress={signAction}>
+               { register ? 'Register' : 'Login'}
+            </Button>
         </SafeAreaView>
     );
 }

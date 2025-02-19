@@ -12,14 +12,22 @@ export function useFireAuth(){
     return user;
 }
 
-export function signUpUser(email, password){
-    createUserWithEmailAndPassword(auth, email, password)
-        .catch(error => console.log(error.message));
+export async function signUpUser(email, password){
+    try {
+        await createUserWithEmailAndPassword(auth, email, password);
+    } catch (error) {
+        return error.message;
+    }
+    return null;
 }
 
-export function loginUser(email, password){
-    signInWithEmailAndPassword(auth, email, password)
-        .catch(error => console.log(error.message));
+export async function loginUser(email, password){
+    try {
+        await signInWithEmailAndPassword(auth, email, password);
+    } catch (error) {
+        return error.message;
+    }
+    return null;
 }
 
 export function logoutUser(){
