@@ -1,6 +1,6 @@
 import { addDoc, collection, deleteDoc, doc, getDocs, onSnapshot, orderBy, query, updateDoc } from "firebase/firestore";
 import { useEffect, useState } from "react";
-import { db, TODOS_REF } from "./Config";
+import { auth, db, TODOS_REF, USERS_REF } from "./Config";
 
 /**
  * Hook for listening the changes in Firestore todos collections
@@ -26,7 +26,8 @@ export function useFireTodos(){
  * Adding new todo into the Firestore colletion (initiates onsnapshot call)
  */
 export function addTodo(todoText){
-    addDoc( collection(db, TODOS_REF), {done: false, todoText } )
+    const subColRef = collection(db, USERS_REF, auth.currentUser.uid, TODOS_REF);
+    addDoc( subColRef, {done: false, todoText } )
         .catch(error => console.log(error.message));
 }
 
@@ -34,7 +35,8 @@ export function addTodo(todoText){
  * Removing single todo item from Firestore by id
  */
 export function removeTodo(id){
-    deleteDoc(doc(db, TODOS_REF, id))
+    const subColRef = collection(db, USERS_REF, auth.currentUser.uid, TODOS_REF);
+    deleteDoc(doc(subColRef, id))
         .catch(error => console.log(error.message));
 }
 
@@ -42,7 +44,8 @@ export function removeTodo(id){
  * Removes all the todo items from Firestore
  */
 export function removeAllTodos(){
-    getDocs( collection(db, TODOS_REF) )
+    const subColRef = collection(db, USERS_REF, auth.currentUser.uid, TODOS_REF);
+    getDocs( subColRef )
         .then( docs => docs.forEach(doc => removeTodo(doc.id)))
         .catch(error => console.log(error.message));
 }
@@ -51,6 +54,7 @@ export function removeAllTodos(){
  * Updates single todo with id and new data
  */
 export function updateTodo(id, data){
-    updateDoc(doc(db, TODOS_REF, id), data)
+    const subColRef = collection(db, USERS_REF, auth.currentUser.uid, TODOS_REF);
+    updateDoc(doc(subColRef, id), data)
         .catch( error => console.log(error.message));
 }

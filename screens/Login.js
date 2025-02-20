@@ -15,12 +15,14 @@ export default function Login(){
     const [nickname, setNickname] = useState('');
     const [register, setRegister] = useState(false);
     const [error, setError] = useState();
-
+    
     async function signAction(){
         if(register){
-            setError(await signUpUser(email, pw));
+            let e = await signUpUser(email, pw, nickname)
+            setError(e);
         }else{
-            setError(await loginUser(email, pw));
+            let e = await loginUser(email, pw);
+            setError(e);
         }
     }
 
