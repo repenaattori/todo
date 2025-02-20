@@ -18,7 +18,7 @@ export default function Login(){
     
     async function signAction(){
         if(register){
-            let e = await signUpUser(email, pw, nickname)
+            let e = await signUpUser(email, pw, nickname);
             setError(e);
         }else{
             let e = await loginUser(email, pw);
@@ -57,6 +57,7 @@ export default function Login(){
                 onChangeText={setPw}
                 label={'Password'}
                 left={<TextInput.Icon icon={'lock'}/>}
+                secureTextEntry={true}
             />
             <Button mode='contained' onPress={signAction}>
                { register ? 'Register' : 'Login'}
