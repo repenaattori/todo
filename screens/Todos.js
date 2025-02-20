@@ -1,13 +1,14 @@
-import { useState } from "react";
-import { StyleSheet, View } from "react-native";
+import { useContext, useState } from "react";
+import { Alert, StyleSheet, View } from "react-native";
 import { Button, MD3LightTheme, Text, TextInput } from "react-native-paper";
 import { TodoList } from '../components/TodoList';
-import { useFireTodos } from "../firebase/FirestoreController";
+import { addTodo, removeAllTodos } from "../firebase/FirestoreController";
+import { UserTodosContext } from "../contexts/UserTodosContext";
 
 export default function Todos() {
 
     const [todo, setTodo] = useState('');
-    const todos = useFireTodos();
+    const todos = useContext(UserTodosContext);
   
     function removeAllAlert(){
       Alert.alert('Todolist', 'Remove all todo item?', [

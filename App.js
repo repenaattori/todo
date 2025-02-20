@@ -7,35 +7,38 @@ import { UserContext } from './contexts/UserContext';
 import { useContext } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createDrawerNavigator } from '@react-navigation/drawer';
+import { UserTodosContext } from './contexts/UserTodosContext';
 
 const Drawer = createDrawerNavigator();
 
 export default function App() {
 
-  const user = useFireAuth();
+  const [user, todos] = useFireAuth();
 
   return (
-    <UserContext.Provider value={user}>
-      <PaperProvider >
-        {user ? <Navigation/> : <Login />}
-      </PaperProvider>
-    </UserContext.Provider>
+    <UserTodosContext.Provider value={todos}>
+      <UserContext.Provider value={user}>
+        <PaperProvider >
+          {user ? <Navigation /> : <Login />}
+        </PaperProvider>
+      </UserContext.Provider>
+    </UserTodosContext.Provider>
   );
 }
 
 function Navigation() {
   const user = useContext(UserContext);
 
-  return(
+  return (
     <NavigationContainer>
       <Drawer.Navigator
         screenOptions={{
-          headerRight: () => <IconButton icon={'logout'} onPress={logoutUser}/>,
+          headerRight: () => <IconButton icon={'logout'} onPress={logoutUser} />,
           headerTitle: user?.email
         }}
       >
-        <Drawer.Screen 
-          name='Todos' 
+        <Drawer.Screen
+          name='Todos'
           component={Todos}
         />
       </Drawer.Navigator>

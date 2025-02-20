@@ -6,21 +6,21 @@ import { auth, db, TODOS_REF, USERS_REF } from "./Config";
  * Hook for listening the changes in Firestore todos collections
  * If changes, the whole colleciton is set to state ==> rerendering the calling component
  */
-export function useFireTodos(){
-    const [todos, setTodos] = useState([]);
+// export function useFireTodos(){
+//     const [todos, setTodos] = useState([]);
 
-    useEffect(()=>{
-        const q = query(collection(db, TODOS_REF), orderBy('todoText'));
+//     useEffect(()=>{
+//         const q = query(collection(db, TODOS_REF), orderBy('todoText'));
 
-        onSnapshot(q, querySnaphot => {
-            setTodos( querySnaphot.docs.map(doc => {
-                return { id: doc.id, ...doc.data() }
-            }));
-        } );
-    }, []);
+//         onSnapshot(q, querySnaphot => {
+//             setTodos( querySnaphot.docs.map(doc => {
+//                 return { id: doc.id, ...doc.data() }
+//             }));
+//         } );
+//     }, []);
 
-    return todos;
-}
+//     return todos;
+// }
 
 /**
  * Adding new todo into the Firestore colletion (initiates onsnapshot call)
